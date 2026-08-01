@@ -65,6 +65,22 @@ python serve.py
 Buka http://localhost:5173. Pakai `serve.py`, bukan `python -m http.server`,
 karena yang bawaan tidak mendukung HTTP Range sehingga video tidak bisa di-seek.
 
+## Setelah mengubah CSS atau JS: naikkan `?v=`
+
+GitHub Pages menyajikan aset dengan `max-age=600`, jadi pengunjung yang pernah
+membuka situs akan melihat versi lama sampai 10 menit. Supaya perubahan langsung
+terlihat, naikkan angka versi di tiga baris pada `index.html`:
+
+```html
+<link rel="stylesheet" href="assets/css/styles.css?v=3">
+<script src="assets/js/data.js?v=3"></script>
+<script src="assets/js/app.js?v=3"></script>
+```
+
+`3` → `4` → `5` dan seterusnya. Angkanya bebas, yang penting berubah. Ini juga
+berlaku waktu Anda mengisi link affiliate — tanpa menaikkan versinya, tombolnya
+kelihatan masih mati padahal sudah diperbaiki.
+
 ## Video
 
 Video di-host sendiri dari `assets/video/`, bukan dari YouTube. Alasannya:
