@@ -540,7 +540,12 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 
   .nav__util{display:none}
   .nav__inner{grid-template-columns:auto 1fr;padding:.6rem 1.25rem;border-radius:0}
-  .nav.is-stuck .nav__inner{border-radius:0}
+  /* backdrop-filter WAJIB dimatikan di sini: properti itu membuat .nav__inner
+     jadi containing block untuk anak position:fixed, sehingga drawer di
+     dalamnya mengukur diri terhadap navbar 61px dan tidak penuh satu layar.
+     Latarnya dibuat solid sebagai gantinya — efek blur-nya toh nyaris tak
+     terlihat karena warnanya sudah 93% pekat. */
+  .nav.is-stuck .nav__inner{border-radius:0;backdrop-filter:none;background:var(--navy-deep)}
   .brand{justify-self:start;grid-column:1}
   .nav__burger{display:flex;grid-column:2}
 
