@@ -305,32 +305,32 @@ window.GOMILKU = {
      ================================================================== */
   experts: [
     {
-      youtube: 'https://youtube.com/shorts/RE3VTu9mtx0',
+      youtube: 'https://youtube.com/shorts/RE3VTu9mtx0?feature=share',
       src: 'Tenaga Ahli/WhatsApp Video 2025-10-06 at 12.43.25.mp4',
       title: 'Mengenal SR12 Go Milku',
       desc: 'Pengantar produk dan siapa yang cocok mengonsumsinya.'
     },
     {
-      youtube: 'https://youtube.com/shorts/Jxs2RfsqdZg',
+      youtube: 'https://youtube.com/shorts/Jxs2RfsqdZg?feature=share',
       src: 'Tenaga Ahli/WhatsApp Video 2025-10-06 at 12.48.30.mp4',
       title: 'Kandungan & Manfaat',
       desc: 'Susu etawa, daun kelor, ikan gabus, dan madu.'
     },
     {
-      youtube: 'https://youtube.com/shorts/tkYBmBurKQI',
+      youtube: 'https://youtube.com/shorts/tkYBmBurKQI?feature=share',
       src: 'Tenaga Ahli/WhatsApp Video 2025-10-06 at 12.48.32.mp4',
       title: 'Cara Konsumsi yang Tepat',
       desc: 'Takaran, frekuensi, dan waktu terbaik meminumnya.'
     },
     {
-      youtube: 'https://youtube.com/shorts/sDu5WiBRE_w',
+      youtube: 'https://youtube.com/shorts/sDu5WiBRE_w?feature=share',
       src: 'Tenaga Ahli/WhatsApp Video 2025-10-06 at 12.48.34.mp4',
       title: 'Reaksi Awal & Adaptasi',
       desc: 'Apa yang wajar terjadi di hari-hari pertama.'
     }
   ],
 
-  productionYoutube: 'https://youtu.be/LTauG9wSP-k',
+  productionYoutube: 'https://youtu.be/LTauG9wSP-k?feature=share',
   productionVideo: 'Produksi GoMilku_1 Menit.mp4',
 
   /* ------------------------------ TESTIMONI ------------------------------
