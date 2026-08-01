@@ -1,0 +1,31 @@
+# ---------------------------------------------------------------------------
+# Aset sumber — TIDAK ikut ke repo.
+#
+# Total ±330 MB, terlalu besar untuk GitHub Pages. Yang dipakai situs adalah
+# hasil olahan di assets/img/ (dibuat oleh tools/optimize_images.py) dan video
+# yang di-host di YouTube.
+#
+# Simpan folder-folder di bawah ini di Drive/lokal. Kalau perlu membuat ulang
+# assets/img/, salin kembali Product/ dan Testimoni/ ke root lalu jalankan
+# skrip optimasinya.
+# ---------------------------------------------------------------------------
+
+Product/
+Testimoni/
+Tenaga Ahli/
+*.mp4
+Reference.webp
+*.pdf
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS / editor
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
