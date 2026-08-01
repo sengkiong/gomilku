@@ -14,7 +14,7 @@ Product/
 Testimoni/
 Tenaga Ahli/
 *.mp4
-Reference.webp
+Reference*
 *.pdf
 
 # Python

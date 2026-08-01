@@ -478,8 +478,10 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .lb[hidden]{display:none}
 .lb__stage{max-width:min(980px,100%);max-height:80vh;display:grid;place-items:center}
 .lb__stage img,.lb__stage video{max-width:100%;max-height:80vh;border-radius:var(--r-md);box-shadow:0 30px 80px rgba(0,0,0,.6)}
-.lb__yt{width:min(900px,86vw);aspect-ratio:16/9;border-radius:var(--r-md);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
-.lb__yt iframe{width:100%;height:100%;border:0}
+.lb__embed{width:min(900px,86vw);aspect-ratio:16/9;border-radius:var(--r-md);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+/* video tenaga ahli direkam potret (720x1280) — Shorts jangan dipaksa 16:9 */
+.lb__embed--portrait{aspect-ratio:9/16;width:auto;height:min(80vh,720px);max-width:86vw}
+.lb__embed iframe{width:100%;height:100%;border:0}
 .lb__stage .videomissing{min-height:200px}
 .lb__caption{color:rgba(255,255,255,.7);font-size:.84rem;margin-top:.9rem;text-align:center;max-width:60ch}
 .lb__close,.lb__nav{position:absolute;display:grid;place-items:center;color:#fff;background:rgba(255,255,255,.1);border-radius:50%;transition:background .2s ease}

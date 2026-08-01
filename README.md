@@ -34,20 +34,36 @@ otomatis memakai `default`.
 Mode `'wa'` juga tersedia kalau ingin kembali ke WhatsApp; isi `waNumber`
 dengan kode negara tanpa `+` dan tanpa spasi.
 
-### 2. Video YouTube
+### 2. Video
 
-File `.mp4` tidak ikut di repo (±174 MB, terlalu besar untuk GitHub Pages).
-Unggah videonya ke YouTube — boleh **Unlisted** — lalu tempel ID-nya:
+File `.mp4` tidak ikut di repo (±174 MB, terlalu besar untuk GitHub Pages), jadi
+video diambil dari sumber eksternal. Dua pilihan, keduanya menerima **ID
+telanjang maupun URL lengkap** yang disalin dari address bar:
 
 ```js
 experts: [
-  { youtube: 'XXXXXXXXXXX', ... },   // ID dari youtu.be/XXXXXXXXXXX
+  { drive: '', youtube: 'https://youtube.com/shorts/XXXXXXXXXXX', ... },
 ]
-productionYoutube: 'XXXXXXXXXXX',
+productionDrive: '',
+productionYoutube: 'https://youtu.be/XXXXXXXXXXX',
 ```
 
-Selama masih kosong, situs mencoba memutar file lokal. Di komputer sendiri itu
-jalan; di GitHub Pages akan muncul pesan bahwa video belum tersedia.
+**Google Drive** — unggah, lalu klik kanan → Share → ubah "Restricted" jadi
+**"Anyone with the link"** peran *Viewer*. Wajib; kalau masih Restricted,
+pengunjung dapat halaman login. Salin URL `drive.google.com/file/d/FILE_ID/view`
+ke field `drive`. Perhatikan Drive punya kuota unduh harian per file — kalau satu
+video ramai ditonton, Drive bisa menolak sementara dengan pesan *"Sorry, you
+can't view or download this file at this time"*.
+
+**YouTube** — terima bentuk apa pun: `youtu.be/...`, `/shorts/...`, `watch?v=...`.
+Tidak ada batas kuota, lebih tahan trafik.
+
+Kalau keduanya diisi, `drive` yang dipakai. Kalau dua-duanya kosong, situs jatuh
+ke file lokal `src` — jalan di komputer sendiri, dan di GitHub Pages muncul pesan
+bahwa video belum tersedia.
+
+Pakai `portrait: true` untuk video rekaman tegak (Shorts / video HP) supaya tidak
+dipaksa 16:9 dan penuh bilah hitam.
 
 ---
 

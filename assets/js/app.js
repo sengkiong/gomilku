@@ -61,11 +61,50 @@
     if (el && el.getAttribute('aria-disabled') === 'true') e.preventDefault();
   });
 
-  /** Iframe YouTube (nocookie) untuk id tertentu. */
-  const ytFrame = (id, title) =>
-    `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0"
-             title="${esc(title || 'Video Go Milku')}" frameborder="0" allow="accelerometer; autoplay;
-             clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  /* ------------------------------- video ---------------------------------
+     Sumber video boleh Google Drive atau YouTube. Keduanya menerima ID
+     telanjang maupun URL lengkap yang disalin dari address bar.
+     ---------------------------------------------------------------------- */
+
+  /** Ambil FILE_ID dari URL Drive, atau kembalikan apa adanya kalau sudah ID. */
+  function driveId(v) {
+    const s = String(v || '').trim();
+    if (!s) return '';
+    const m = s.match(/\/file\/d\/([^/?#]+)/) || s.match(/[?&]id=([^&#]+)/);
+    return m ? m[1] : (s.includes('/') ? '' : s);
+  }
+
+  /** Ambil ID video dari URL YouTube (watch, youtu.be, shorts, embed). */
+  function youtubeId(v) {
+    const s = String(v || '').trim();
+    if (!s) return '';
+    const m = s.match(/(?:youtu\.be\/|\/shorts\/|\/embed\/|[?&]v=)([^/?&#]+)/);
+    return m ? m[1] : (s.includes('/') ? '' : s);
+  }
+
+  const iframeTag = (src, title) =>
+    `<iframe src="${src}" title="${esc(title || 'Video Go Milku')}" frameborder="0"
+             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+             allowfullscreen></iframe>`;
+
+  /**
+   * Bangun iframe dari entri video. Drive diprioritaskan bila keduanya diisi.
+   * Mengembalikan '' kalau tidak ada sumber online — pemanggil jatuh ke file lokal.
+   */
+  function embedFor(entry, title) {
+    const d = driveId(entry.drive);
+    if (d) return iframeTag(`https://drive.google.com/file/d/${encodeURIComponent(d)}/preview`, title);
+
+    // pakai youtube.com biasa, bukan youtube-nocookie.com — domain nocookie
+    // lebih ketat dan sering memunculkan error "Playback ID" pada embed
+    const y = youtubeId(entry.youtube);
+    if (y) {
+      const p = `autoplay=1&rel=0&playsinline=1&origin=${encodeURIComponent(location.origin)}`;
+      return iframeTag(`https://www.youtube.com/embed/${encodeURIComponent(y)}?${p}`, title);
+    }
+
+    return '';
+  }
 
   /** <picture> WebP + fallback untuk aset di assets/img/ (tanpa ekstensi). */
   const picture = (stem, ext, alt, cls, extra) => `
@@ -297,9 +336,13 @@
     btn.addEventListener('click', () => {
       frame.classList.add('is-playing');
 
-      if (D.productionYoutube) {
+      const embed = embedFor(
+        { drive: D.productionDrive, youtube: D.productionYoutube },
+        'Proses produksi SR12 Go Milku'
+      );
+      if (embed) {
         video.remove();
-        frame.insertAdjacentHTML('afterbegin', ytFrame(D.productionYoutube, 'Proses produksi SR12 Go Milku'));
+        frame.insertAdjacentHTML('afterbegin', embed);
         return;
       }
 
@@ -315,7 +358,7 @@
     host.innerHTML = `
       <p class="videomissing">
         Video belum tersedia versi online-nya.<br>
-        <span>Unggah ke YouTube lalu isi ID-nya di <code>assets/js/data.js</code>.</span>
+        <span>Isi link Google Drive atau YouTube-nya di <code>assets/js/data.js</code>.</span>
       </p>`;
   }
 
@@ -335,7 +378,7 @@
       const card = e.target.closest('[data-expert]');
       if (!card) return;
       const v = D.experts[Number(card.dataset.expert)];
-      openLightbox({ type: 'video', src: v.src, youtube: v.youtube, caption: v.title }, card);
+      openLightbox({ type: 'video', entry: v, src: v.src, caption: v.title, portrait: v.portrait }, card);
     });
   }
 
@@ -379,8 +422,10 @@
       lb.prev.hidden = true;
       lb.next.hidden = true;
 
-      if (opts.youtube) {
-        lb.stage.innerHTML = `<div class="lb__yt">${ytFrame(opts.youtube, opts.caption)}</div>`;
+      const embed = embedFor(opts.entry || {}, opts.caption);
+      if (embed) {
+        lb.stage.innerHTML =
+          `<div class="lb__embed${opts.portrait ? ' lb__embed--portrait' : ''}">${embed}</div>`;
       } else {
         lb.stage.innerHTML =
           `<video src="${asset(opts.src)}" controls autoplay playsinline preload="metadata"></video>`;
@@ -432,7 +477,7 @@
       if (e.key === 'ArrowRight') step(1);
       if (e.key === 'Tab') {
         // jaga fokus tetap di dalam dialog
-        const focusable = $$('button, video, a[href]', lb.el).filter((n) => !n.hidden);
+        const focusable = $$('button, video, iframe, a[href]', lb.el).filter((n) => !n.hidden);
         if (!focusable.length) return;
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
