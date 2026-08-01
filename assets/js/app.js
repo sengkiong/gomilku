@@ -88,8 +88,8 @@
              allowfullscreen></iframe>`;
 
   /**
-   * Bangun iframe dari entri video. Drive diprioritaskan bila keduanya diisi.
-   * Mengembalikan '' kalau tidak ada sumber online — pemanggil jatuh ke file lokal.
+   * Iframe cadangan kalau file lokal gagal dimuat. Drive didahulukan.
+   * Mengembalikan '' kalau tidak ada cadangan sama sekali.
    */
   function embedFor(entry, title) {
     const d = driveId(entry.drive);
@@ -333,9 +333,16 @@
     const video = $('#prodVideo');
     const btn = $('#prodPlay');
 
+    if (D.productionPoster) video.poster = asset(D.productionPoster);
+
     btn.addEventListener('click', () => {
       frame.classList.add('is-playing');
+      if (!video.src) video.src = asset(D.productionVideo);
+      video.play().catch(() => {});
+    });
 
+    // file lokal gagal -> coba Drive/YouTube -> baru menyerah dengan pesan
+    video.addEventListener('error', () => {
       const embed = embedFor(
         { drive: D.productionDrive, youtube: D.productionYoutube },
         'Proses produksi SR12 Go Milku'
@@ -343,22 +350,19 @@
       if (embed) {
         video.remove();
         frame.insertAdjacentHTML('afterbegin', embed);
-        return;
+      } else {
+        showVideoMissing(frame);
       }
-
-      if (!video.src) video.src = asset(D.productionVideo);
-      video.play().catch(() => {});
     });
-
-    video.addEventListener('error', () => showVideoMissing(frame));
   }
 
-  /** File .mp4 tidak ada (tidak ikut di repo) — beri pesan, jangan layar hitam. */
+  /** Semua sumber gagal — beri pesan, jangan layar hitam. */
   function showVideoMissing(host) {
     host.innerHTML = `
       <p class="videomissing">
-        Video belum tersedia versi online-nya.<br>
-        <span>Isi link Google Drive atau YouTube-nya di <code>assets/js/data.js</code>.</span>
+        Video tidak dapat dimuat.<br>
+        <span>Periksa berkas di <code>assets/video/</code> atau isi cadangannya di
+        <code>assets/js/data.js</code>.</span>
       </p>`;
   }
 
@@ -366,7 +370,9 @@
   function renderExperts() {
     $('#expertGrid').innerHTML = D.experts.map((v, i) => `
       <button class="vcard reveal" type="button" data-expert="${i}">
-        <span class="vcard__thumb"></span>
+        <span class="vcard__thumb">
+          ${v.poster ? `<img src="${asset(v.poster)}" alt="" loading="lazy" aria-hidden="true">` : ''}
+        </span>
         <span class="vcard__body">
           <b>${esc(v.title)}</b>
           <span>${esc(v.desc)}</span>
@@ -422,15 +428,20 @@
       lb.prev.hidden = true;
       lb.next.hidden = true;
 
-      const embed = embedFor(opts.entry || {}, opts.caption);
-      if (embed) {
-        lb.stage.innerHTML =
-          `<div class="lb__embed${opts.portrait ? ' lb__embed--portrait' : ''}">${embed}</div>`;
-      } else {
-        lb.stage.innerHTML =
-          `<video src="${asset(opts.src)}" controls autoplay playsinline preload="metadata"></video>`;
-        $('video', lb.stage).addEventListener('error', () => showVideoMissing(lb.stage));
-      }
+      const entry = opts.entry || {};
+      lb.stage.innerHTML = `<video src="${asset(opts.src)}"${
+        entry.poster ? ` poster="${asset(entry.poster)}"` : ''
+      } controls autoplay playsinline preload="metadata"></video>`;
+
+      // file lokal gagal -> coba Drive/YouTube -> baru menyerah dengan pesan
+      $('video', lb.stage).addEventListener('error', () => {
+        const embed = embedFor(entry, opts.caption);
+        lb.stage.innerHTML = embed
+          ? `<div class="lb__embed${opts.portrait ? ' lb__embed--portrait' : ''}">${embed}</div>`
+          : '';
+        if (!embed) showVideoMissing(lb.stage);
+      });
+
       lb.caption.textContent = opts.caption || '';
     }
 

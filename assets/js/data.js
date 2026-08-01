@@ -290,74 +290,69 @@ window.GOMILKU = {
   ],
 
   /* ==================================================================
-     VIDEO
+     VIDEO — di-host sendiri
      ------------------------------------------------------------------
-     File .mp4 TIDAK ikut di repo (±174 MB, terlalu besar untuk GitHub
-     Pages), jadi di situs online video diambil dari sumber eksternal.
+     Video diputar dari file di assets/video/, bukan dari YouTube. Alasannya:
+     pemutar YouTube selalu menampilkan nama channel di bilah atas dan itu
+     tidak bisa dimatikan lagi (parameter modestbranding dan showinfo sudah
+     dihapus YouTube). Dengan file sendiri, pemutarnya bersih total.
 
-     Ada dua pilihan sumber. Boleh diisi ID telanjang maupun URL lengkap
-     yang disalin langsung dari address bar — keduanya dikenali.
+     File di assets/video/ adalah hasil kompresi tools/compress_videos.py
+     dari rekaman mentah di folder "Tenaga Ahli" — 169,6 MB jadi 28,1 MB.
+     Kalau video sumbernya diganti, jalankan ulang skrip itu.
 
-     A. GOOGLE DRIVE  -> field `drive`
-        1. unggah ke Drive
-        2. klik kanan file -> Share -> ubah "Restricted" jadi
-           "Anyone with the link", peran "Viewer". WAJIB, kalau tidak
-           pengunjung dapat halaman login, bukan videonya.
-        3. salin URL-nya: drive.google.com/file/d/FILE_ID/view
-        Catatan: Drive punya kuota unduh harian per file. Kalau satu
-        video ramai ditonton, Drive bisa menolak sementara dengan pesan
-        "Sorry, you can't view or download this file at this time".
+     `poster`  = frame pertama, dipakai jadi thumbnail kartu dan gambar
+                 diam sebelum video diputar.
+     `portrait`= true untuk rekaman tegak, supaya lightbox pakai rasio 9/16
+                 dan tidak penuh bilah hitam.
 
-     B. YOUTUBE  -> field `youtube`
-        Terima bentuk apa pun: youtu.be/..., /shorts/..., watch?v=...
-        Tidak ada batas kuota, lebih tahan trafik.
-
-     URUTAN PRIORITAS: `drive` dipakai lebih dulu kalau diisi. Kalau
-     `drive` kosong, pakai `youtube`. Kalau dua-duanya kosong, halaman
-     jatuh ke file lokal `src` — jalan di komputer sendiri, tapi kosong
-     di GitHub Pages.
-
-     `portrait: true` untuk video rekaman tegak (Shorts / video HP)
-     supaya tidak dipaksa jadi 16:9 dan penuh bilah hitam.
+     `drive` dan `youtube` hanya CADANGAN: dipakai kalau file lokalnya
+     gagal dimuat. Keduanya menerima ID telanjang maupun URL lengkap.
+     Untuk Drive, file wajib di-share "Anyone with the link -> Viewer".
      ================================================================== */
   experts: [
     {
+      src: 'assets/video/ahli-01.mp4',
+      poster: 'assets/video/ahli-01-poster.webp',
+      portrait: true,
       drive: '',
       youtube: 'https://youtube.com/shorts/RE3VTu9mtx0?feature=share',
-      portrait: true,
-      src: 'Tenaga Ahli/WhatsApp Video 2025-10-06 at 12.43.25.mp4',
       title: 'Mengenal SR12 Go Milku',
       desc: 'Pengantar produk dan siapa yang cocok mengonsumsinya.'
     },
     {
+      src: 'assets/video/ahli-02.mp4',
+      poster: 'assets/video/ahli-02-poster.webp',
+      portrait: true,
       drive: '',
       youtube: 'https://youtube.com/shorts/Jxs2RfsqdZg?feature=share',
-      portrait: true,
-      src: 'Tenaga Ahli/WhatsApp Video 2025-10-06 at 12.48.30.mp4',
       title: 'Kandungan & Manfaat',
       desc: 'Susu etawa, daun kelor, ikan gabus, dan madu.'
     },
     {
+      src: 'assets/video/ahli-03.mp4',
+      poster: 'assets/video/ahli-03-poster.webp',
+      portrait: true,
       drive: '',
       youtube: 'https://youtube.com/shorts/tkYBmBurKQI?feature=share',
-      portrait: true,
-      src: 'Tenaga Ahli/WhatsApp Video 2025-10-06 at 12.48.32.mp4',
       title: 'Cara Konsumsi yang Tepat',
       desc: 'Takaran, frekuensi, dan waktu terbaik meminumnya.'
     },
     {
+      src: 'assets/video/ahli-04.mp4',
+      poster: 'assets/video/ahli-04-poster.webp',
+      portrait: true,
       drive: '',
       youtube: 'https://youtube.com/shorts/sDu5WiBRE_w?feature=share',
-      portrait: true,
-      src: 'Tenaga Ahli/WhatsApp Video 2025-10-06 at 12.48.34.mp4',
       title: 'Reaksi Awal & Adaptasi',
       desc: 'Apa yang wajar terjadi di hari-hari pertama.'
     }
   ],
 
+  productionVideo: 'assets/video/produksi.mp4',
+  productionPoster: 'assets/video/produksi-poster.webp',
   productionDrive: '',
   productionYoutube: 'https://youtu.be/LTauG9wSP-k?feature=share',
-  productionVideo: 'Produksi GoMilku_1 Menit.mp4',
 
   /* ------------------------------ TESTIMONI ------------------------------
      Hasil crop panel chat WhatsApp dari infografis asli di folder Testimoni/.

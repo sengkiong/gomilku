@@ -412,10 +412,16 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 /* ------------------------------ tenaga ahli ------------------------------ */
 .vcard{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm);text-align:left;width:100%;transition:transform .25s ease,box-shadow .25s ease}
 .vcard:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
-.vcard__thumb{aspect-ratio:4/3;background:linear-gradient(150deg,var(--navy) 0%,var(--navy-soft) 100%);display:grid;place-items:center;position:relative}
-.vcard__thumb::after{content:'';width:54px;height:54px;border-radius:50%;background:var(--gold);box-shadow:0 10px 26px rgba(0,0,0,.3);transition:transform .25s ease}
+.vcard__thumb{aspect-ratio:4/3;background:linear-gradient(150deg,var(--navy) 0%,var(--navy-soft) 100%);display:grid;place-items:center;position:relative;overflow:hidden}
+/* poster diambil dari frame video oleh tools/compress_videos.py */
+.vcard__thumb img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform .4s ease,filter .25s ease;filter:brightness(.82);
+}
+.vcard:hover .vcard__thumb img{transform:scale(1.05);filter:brightness(.95)}
+.vcard__thumb::after{content:'';position:relative;z-index:2;width:54px;height:54px;border-radius:50%;background:var(--gold);box-shadow:0 10px 26px rgba(0,0,0,.4);transition:transform .25s ease}
 .vcard:hover .vcard__thumb::after{transform:scale(1.1)}
-.vcard__thumb::before{content:'';position:absolute;z-index:2;border-left:16px solid var(--navy-deep);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:5px}
+.vcard__thumb::before{content:'';position:absolute;z-index:3;border-left:16px solid var(--navy-deep);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:5px}
 .vcard__body{padding:1rem 1.2rem 1.25rem}
 .vcard__body b{display:block;font-family:var(--display);font-weight:600;font-size:1rem;color:var(--ink)}
 .vcard__body span{font-size:.82rem}

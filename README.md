@@ -34,36 +34,7 @@ otomatis memakai `default`.
 Mode `'wa'` juga tersedia kalau ingin kembali ke WhatsApp; isi `waNumber`
 dengan kode negara tanpa `+` dan tanpa spasi.
 
-### 2. Video
-
-File `.mp4` tidak ikut di repo (±174 MB, terlalu besar untuk GitHub Pages), jadi
-video diambil dari sumber eksternal. Dua pilihan, keduanya menerima **ID
-telanjang maupun URL lengkap** yang disalin dari address bar:
-
-```js
-experts: [
-  { drive: '', youtube: 'https://youtube.com/shorts/XXXXXXXXXXX', ... },
-]
-productionDrive: '',
-productionYoutube: 'https://youtu.be/XXXXXXXXXXX',
-```
-
-**Google Drive** — unggah, lalu klik kanan → Share → ubah "Restricted" jadi
-**"Anyone with the link"** peran *Viewer*. Wajib; kalau masih Restricted,
-pengunjung dapat halaman login. Salin URL `drive.google.com/file/d/FILE_ID/view`
-ke field `drive`. Perhatikan Drive punya kuota unduh harian per file — kalau satu
-video ramai ditonton, Drive bisa menolak sementara dengan pesan *"Sorry, you
-can't view or download this file at this time"*.
-
-**YouTube** — terima bentuk apa pun: `youtu.be/...`, `/shorts/...`, `watch?v=...`.
-Tidak ada batas kuota, lebih tahan trafik.
-
-Kalau keduanya diisi, `drive` yang dipakai. Kalau dua-duanya kosong, situs jatuh
-ke file lokal `src` — jalan di komputer sendiri, dan di GitHub Pages muncul pesan
-bahwa video belum tersedia.
-
-Pakai `portrait: true` untuk video rekaman tegak (Shorts / video HP) supaya tidak
-dipaksa 16:9 dan penuh bilah hitam.
+*(Video sudah beres — lihat bagian Video di bawah.)*
 
 ---
 
@@ -93,6 +64,30 @@ python serve.py
 
 Buka http://localhost:5173. Pakai `serve.py`, bukan `python -m http.server`,
 karena yang bawaan tidak mendukung HTTP Range sehingga video tidak bisa di-seek.
+
+## Video
+
+Video di-host sendiri dari `assets/video/`, bukan dari YouTube. Alasannya:
+pemutar YouTube selalu menampilkan nama channel di bilah atas dan itu tidak bisa
+dimatikan lagi — parameter `modestbranding` dihapus YouTube pada 2023 dan
+`showinfo` pada 2018. Dengan file sendiri, pemutarnya bersih total, tanpa logo,
+tanpa video terkait, dan tanpa kuota.
+
+Rekaman mentahnya (folder `Tenaga Ahli/`, 169,6 MB) tidak ikut repo. Yang masuk
+adalah hasil kompresi **28,1 MB** — hemat 83%:
+
+```bash
+winget install Gyan.FFmpeg
+python tools/compress_videos.py
+```
+
+Skrip itu menurunkan 60 fps ke 30 fps, memperkecil resolusi seperlunya
+(540×960 untuk video tegak, 1280×720 untuk video produksi), dan mengambil satu
+frame sebagai `poster` yang dipakai jadi thumbnail kartu.
+
+Field `drive` dan `youtube` di `data.js` hanya **cadangan** — dipakai otomatis
+kalau file lokalnya gagal dimuat. Keduanya menerima ID telanjang maupun URL
+lengkap; untuk Drive, file wajib di-share *Anyone with the link → Viewer*.
 
 ## Membuat ulang gambar
 

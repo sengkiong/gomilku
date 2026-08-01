@@ -13,9 +13,13 @@
 Product/
 Testimoni/
 Tenaga Ahli/
-*.mp4
 Reference*
 *.pdf
+
+# video mentah dari kamera (±170 MB) tidak ikut; yang masuk repo hanya
+# hasil kompresi di assets/video/ (±28 MB) dari tools/compress_videos.py
+*.mp4
+!assets/video/*.mp4
 
 # Python
 __pycache__/
