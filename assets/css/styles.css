@@ -95,15 +95,19 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   line-height:1.14;
   letter-spacing:-.01em;
 }
+/* ukuran ditahan di 2.9rem: headline hero dua kalimat, pada 4rem baris
+   keduanya melebihi lebar kolom dan pecah jadi lima baris */
 .display--hero{
   color:#fff;
   font-weight:700;
-  font-size:clamp(2.2rem,5.2vw,4rem);
-  line-height:1.08;
+  font-size:clamp(1.85rem,3.9vw,2.9rem);
+  line-height:1.14;
 }
 .display--cta{color:#fff;font-size:clamp(1.9rem,4.2vw,3.1rem)}
 
-.hl{color:var(--gold);font-style:italic}
+/* nowrap: frasa yang di-highlight adalah inti pesannya, jangan sampai
+   terbelah dua baris */
+.hl{color:var(--gold);font-style:italic;white-space:nowrap}
 
 .eyebrow{
   font-weight:500;text-transform:uppercase;letter-spacing:.22em;
