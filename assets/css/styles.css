@@ -506,16 +506,42 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .lb__nav[hidden]{display:none}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 
-/* ------------------------------------ FAB ------------------------------------ */
-.fab{
-  position:fixed;right:1.15rem;bottom:1.15rem;z-index:90;
-  width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
-  background:var(--wa);color:#fff;box-shadow:0 14px 34px rgba(37,211,102,.4);
-  opacity:0;visibility:hidden;transform:translateY(16px) scale(.85);
-  transition:opacity .3s ease,transform .3s ease,visibility .3s;
+/* ------------------------- tombol pesan melayang -------------------------
+   Desktop: pill di pojok. Ponsel: bar selebar layar menempel di dasar.
+   -------------------------------------------------------------------- */
+.orderbar{
+  position:fixed;right:1.5rem;bottom:1.5rem;z-index:90;
+  display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+  padding:.95rem 1.9rem;border-radius:999px;
+  background:linear-gradient(135deg,var(--gold-soft),var(--gold));
+  color:var(--navy-deep);font-weight:600;font-size:.95rem;letter-spacing:.01em;
+  box-shadow:0 14px 36px rgba(198,166,100,.45),0 4px 12px rgba(7,45,69,.25);
+  opacity:0;visibility:hidden;transform:translateY(16px) scale(.94);
+  transition:opacity .3s ease,transform .3s ease,visibility .3s,box-shadow .25s ease;
 }
-.fab.is-on{opacity:1;visibility:visible;transform:none}
-.fab:hover{transform:scale(1.08)}
+.orderbar.is-on{opacity:1;visibility:visible;transform:none}
+.orderbar:hover{box-shadow:0 18px 44px rgba(198,166,100,.6),0 4px 12px rgba(7,45,69,.3)}
+.orderbar.is-on:hover{transform:translateY(-2px)}
+.orderbar__icon{display:grid;place-items:center}
+
+/* tombolnya mati selama link pemesanan belum siap — sembunyikan saja,
+   tombol besar yang tidak bisa diklik lebih buruk daripada tidak ada */
+.orderbar.is-disabled{display:none}
+
+/* jangan menghalangi drawer menu atau lightbox */
+body.is-locked .orderbar{display:none}
+
+@media (max-width:640px){
+  .orderbar{
+    left:0;right:0;bottom:0;border-radius:0;
+    padding:1.05rem 1rem calc(1.05rem + env(safe-area-inset-bottom,0px));
+    font-size:1rem;
+    box-shadow:0 -6px 24px rgba(7,45,69,.28);
+  }
+  .orderbar.is-on:hover,.orderbar:hover{transform:none}
+  /* beri ruang supaya baris hak cipta tidak tertutup bar */
+  .foot__bar{padding-bottom:calc(4.75rem + env(safe-area-inset-bottom,0px))}
+}
 
 /* -------------------------------- scroll reveal -------------------------------- */
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}

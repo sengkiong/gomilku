@@ -21,10 +21,10 @@ window.GOMILKU = {
        2. ubah mode: 'off'  ->  mode: 'affiliate'
      ================================================================== */
   CTA: {
-    mode: 'off',
+    mode: 'wa',
 
-    // kode negara tanpa "+" dan tanpa spasi. Belum diisi nomor asli.
-    waNumber: '6281234567890',
+    // kode negara tanpa "+" dan tanpa spasi
+    waNumber: '6281260771588',
 
     affiliate: {
       default: '',    // dipakai tombol umum (navbar, hero, banner, CTA bawah)

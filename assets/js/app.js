@@ -16,6 +16,13 @@
   /** Path aset lokal berisi spasi — harus di-encode agar valid sebagai URL. */
   const asset = (p) => encodeURI(p);
 
+  /** Kunci gulir halaman saat drawer / lightbox terbuka; kelasnya juga
+      dipakai CSS untuk menyembunyikan tombol pesan melayang. */
+  function lockScreen(on) {
+    document.body.style.overflow = on ? 'hidden' : '';
+    document.body.classList.toggle('is-locked', on);
+  }
+
   /* -------------------------------- link CTA --------------------------------
      Mode 'affiliate' memakai URL dari D.CTA.affiliate; kalau URL varian itu
      masih kosong, otomatis jatuh balik ke WhatsApp. Jadi aman diisi sebagian.
@@ -119,9 +126,18 @@
     const burger = $('#navBurger');
     const links = $('#navLinks');
 
+    const hero = $('#top');
+    const orderBar = $('#orderBar');
+
     const onScroll = () => {
       nav.classList.toggle('is-stuck', window.scrollY > 40);
-      $('#fab').classList.toggle('is-on', window.scrollY > 500);
+
+      // tombol pesan melayang muncul setelah hero benar-benar lewat.
+      // Dipatok ke tinggi hero yang sesungguhnya, bukan angka piksel mati,
+      // supaya tetap tepat di layar mana pun.
+      if (orderBar && hero) {
+        orderBar.classList.toggle('is-on', hero.getBoundingClientRect().bottom <= 0);
+      }
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -130,14 +146,14 @@
       links.classList.remove('is-open');
       burger.setAttribute('aria-expanded', 'false');
       burger.setAttribute('aria-label', 'Buka menu');
-      document.body.style.overflow = '';
+      lockScreen(false);
     };
 
     burger.addEventListener('click', () => {
       const open = links.classList.toggle('is-open');
       burger.setAttribute('aria-expanded', String(open));
       burger.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
-      document.body.style.overflow = open ? 'hidden' : '';
+      lockScreen(open);
     });
 
     links.addEventListener('click', (e) => {
@@ -446,7 +462,7 @@
     }
 
     lb.el.hidden = false;
-    document.body.style.overflow = 'hidden';
+    lockScreen(true);
     $('#lbClose').focus();
   }
 
@@ -455,7 +471,7 @@
     if (video) { video.pause(); video.removeAttribute('src'); video.load(); }
     lb.stage.innerHTML = '';
     lb.el.hidden = true;
-    document.body.style.overflow = '';
+    lockScreen(false);
     if (lb.opener) lb.opener.focus();
   }
 
